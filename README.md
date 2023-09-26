@@ -98,7 +98,7 @@ To set up this project on your local machine, follow these steps:
 ## Usage
 
 To start the development server, run:
-
+npm install
 npm start
 
 This will launch the application in your web browser.
