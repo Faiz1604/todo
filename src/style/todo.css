@@ -147,7 +147,10 @@
     border-radius: 3px;
     padding: 6px;
   }
-  
+  /* sign to completed tast */
+  .completed {
+    text-decoration: line-through;
+  }
   li button.save-button {
     background-color: #28a745;
     color: white;

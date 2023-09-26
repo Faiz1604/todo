@@ -1,17 +1,16 @@
-
+// Signup.js
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import './../style/signup.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-
+  const[showPassword,setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -22,30 +21,45 @@ const Signup = () => {
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
-  const validateUserExists = () => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser && storedUser.username === formData.username) {
-      alert('User with this username already exists.');
-    } else {
-      localStorage.setItem('user', JSON.stringify(formData));
-    }
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Validate the password
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordRegex.test(formData.password)) {
-      setPasswordError('Password must be at least 8 characters with at least 1 alphabet and 1 special symbol.');
+      setPasswordError(
+        'Password must be at least 8 characters with at least 1 alphabet and 1 special symbol.'
+      );
       return;
     }
 
     // Password is valid, clear any previous error
     setPasswordError('');
-    validateUserExists();
-    navigate("/login");
 
-    
+    // Retrieve existing users from local storage or initialize as an empty array
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Check if the user already exists by username
+    const userExists = existingUsers.some((user) => user.username === formData.username);
+
+    if (userExists) {
+      alert('User with this username already exists.');
+    } else {
+      // Add the new user to the array of existing users
+      const updatedUsers = [...existingUsers, formData];
+
+      // Store the updated users array in local storage
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+      // Clear input fields
+      setFormData({
+        username: '',
+        password: '',
+      });
+
+      // Redirect to the login page
+      navigate('/login');
+    }
   };
 
   return (
@@ -61,7 +75,6 @@ const Signup = () => {
             value={formData.username}
             required
             onChange={handleChange}
-            style={{width:'95%'}}
           />
         </div>
         <div>
@@ -74,15 +87,15 @@ const Signup = () => {
             required
             onChange={handleChange}
           />
-          <div id='toggle-visibility'>
-            <label htmlFor="toggle-visibility">showPassword</label>
+        </div>
+        <div id="toggle-visibility">
+          <label htmlFor="toggle-visibility">Show Password</label>
           <input
-              type="checkbox"
-              onClick={handleTogglePassword}
-              className="toggle-password-button"
-              name="toggle-visibility"
-            />
-            </div>
+            type="checkbox"
+            onClick={handleTogglePassword}
+            className="toggle-password-button"
+            name="toggle-visibility"
+          />
         </div>
         {passwordError && <p className="error-message">{passwordError}</p>}
         <div>

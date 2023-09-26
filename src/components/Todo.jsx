@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo , useContext} from 'react';
-import "./../style/todo.css";
-import { UserContext } from '../context/Authcontext';
-import {useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import './../style/todo.css';
+import { useNavigate } from 'react-router-dom';
+
 // AddTaskModal component
 function AddTaskModal({ isOpen, onClose, onAddTask }) {
   const [taskText, setTaskText] = useState('');
@@ -14,16 +14,14 @@ function AddTaskModal({ isOpen, onClose, onAddTask }) {
         text: taskText,
         dueDate,
         priority,
-        completed: false, // Initialize new tasks as not completed
+        completed: false,
       });
       setTaskText('');
       setDueDate('');
       setPriority('medium');
       onClose();
-    } else if (taskText.trim() !== '' && dueDate === '') {
-      alert("Fill in the due date.");
     } else {
-      alert("Text field cannot be empty.");
+      alert('Task and Due Date fields cannot be empty.');
     }
   };
 
@@ -70,30 +68,33 @@ function AddTaskModal({ isOpen, onClose, onAddTask }) {
 // Todo component
 function Todo() {
   const [tasks, setTasks] = useState([]);
-  const [taskText, setTaskText] = useState('');
+  const [editedTaskText, setEditedTaskText] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('medium');
   const [editingTaskId, setEditingTaskId] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'completed', 'active'
-  const [filterPriority, setFilterPriority] = useState('all'); // 'all', 'high', 'medium', 'low'
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterPriority, setFilterPriority] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sortOrder, setSortOrder] = useState('default'); // 'default', 'dueDate', 'priority'
+  const [sortOrder, setSortOrder] = useState('default');
   const navigate = useNavigate();
+
+  const loggedUser = localStorage.getItem('loggedUser');
+
   useEffect(() => {
     // Load tasks from local storage based on the logged-in user's username
-    const username = localStorage.getItem("loggedUser");
-    const storedTasks = JSON.parse(localStorage.getItem(username));
+    const storedTasks = JSON.parse(localStorage.getItem(loggedUser)) || [];
     setTasks(storedTasks);
-  }, []);
+  }, [loggedUser]);
 
-  useMemo(() => {
-    // Save tasks to local storage whenever tasks change for the logged-in user
-    const username = localStorage.getItem("loggedUser");
-    localStorage.setItem(username, JSON.stringify(tasks));
-  }, [tasks]);
+  const saveTasksToLocalStorage = (tasks) => {
+    // Save tasks to local storage for the logged-in user
+    localStorage.setItem(loggedUser, JSON.stringify(tasks));
+  };
 
   const addTask = (newTask) => {
-    setTasks([...tasks, { id: Date.now(), ...newTask }]);
+    const updatedTasks = [...tasks, { id: Date.now(), ...newTask }];
+    setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const editTask = (taskId, newText) => {
@@ -102,6 +103,8 @@ function Todo() {
     );
     setTasks(updatedTasks);
     setEditingTaskId(null);
+    setEditedTaskText('');
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const toggleCompleted = (taskId) => {
@@ -109,24 +112,27 @@ function Todo() {
       task.id === taskId ? { ...task, completed: !task.completed } : task
     );
     setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const deleteTask = (taskId) => {
     const updatedTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
-  const filteredTasks = tasks.filter((task) => {
-    const statusMatch =
-      filterStatus === 'all' ||
-      (filterStatus === 'completed' && task.completed) ||
-      (filterStatus === 'active' && !task.completed);
-    const priorityMatch =
-      filterPriority === 'all' || filterPriority === task.priority;
-    return statusMatch && priorityMatch;
-  });
+  const filteredTasks = useMemo(() => {
+    return tasks.filter((task) => {
+      const statusMatch =
+        filterStatus === 'all' ||
+        (filterStatus === 'completed' && task.completed) ||
+        (filterStatus === 'active' && !task.completed);
+      const priorityMatch =
+        filterPriority === 'all' || filterPriority === task.priority;
+      return statusMatch && priorityMatch;
+    });
+  }, [tasks, filterStatus, filterPriority]);
 
-  // Function to toggle sorting order
   const toggleSortOrder = () => {
     if (sortOrder === 'default') {
       setSortOrder('dueDate');
@@ -137,22 +143,28 @@ function Todo() {
     }
   };
 
-  // Function to sort tasks based on the current sortOrder
-  const sortedTasks = useMemo(() => {
-    let sorted = [...tasks];
-    if (sortOrder === 'dueDate') {
-      sorted = sorted.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-    } else if (sortOrder === 'priority') {
-      const priorityOrder = { high: 1, medium: 2, low: 3 };
-      sorted = sorted.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+  const handleChange = (e) => {
+    setEditedTaskText(e.target.value);
+  };
+
+  const saveEditedTask = () => {
+    if (editedTaskText.trim() !== '') {
+      editTask(editingTaskId, editedTaskText);
+    } else {
+      alert('Task text cannot be empty.');
     }
-    return sorted;
-  }, [tasks, sortOrder]);
-  // function to logout
-  const logOut = ()=>{
-    localStorage.removeItem("loggedUser");
-    navigate("/");
-  }
+  };
+
+  const cancelEditing = () => {
+    setEditingTaskId(null);
+    setEditedTaskText('');
+  };
+
+  const logOut = () => {
+    localStorage.removeItem('loggedUser');
+    navigate('/');
+  };
+
   return (
     <div className="todo-container">
       <h1 className="todo-title">Todo List</h1>
@@ -163,6 +175,7 @@ function Todo() {
         onClose={() => setIsModalOpen(false)}
         onAddTask={addTask}
       />
+
       <div className="filters">
         <div className="filter-container">
           <label>Status:</label>
@@ -190,24 +203,27 @@ function Todo() {
           </select>
         </div>
         <div className="filter-container">
-    <label>Sort By:</label>
-    <select
-      value={sortOrder}
-      onChange={(e) => setSortOrder(e.target.value)}
-      className="filter-select"
-    >
-      <option value="default">Default</option>
-      <option value="dueDate">Due Date</option>
-      <option value="priority">Priority</option>
-    </select>
-  </div>
-  <div className="filter-container">
-  <button id='logout-btn' onClick={logOut}>logout</button>
-  </div>
+          <label>Sort By:</label>
+          <select
+            value={sortOrder}
+            onChange={() => toggleSortOrder()}
+            className="filter-select"
+          >
+            <option value="default">Default</option>
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
+          </select>
+        </div>
+        <div className="filter-container">
+          <button id="logout-btn" onClick={logOut}>
+            Logout
+          </button>
+        </div>
       </div>
+
       <div className="scrollable-box">
         <ol className="task-list">
-          {sortedTasks.map((task) => (
+          {filteredTasks.map((task) => (
             <li
               key={task.id}
               className={`task ${task.completed ? 'completed' : ''}`}
@@ -216,15 +232,15 @@ function Todo() {
                 <>
                   <input
                     type="text"
-                    value={task.text}
-                    onChange={(e) => setTaskText(e.target.value)}
+                    value={editedTaskText}
+                    onChange={handleChange}
                     className="edit-input"
                   />
-                  <button
-                    onClick={() => editTask(task.id, taskText)}
-                    className="save-button"
-                  >
+                  <button onClick={saveEditedTask} className="save-button">
                     Save
+                  </button>
+                  <button onClick={cancelEditing} className="cancel-button">
+                    Cancel
                   </button>
                 </>
               ) : (

@@ -24,10 +24,10 @@
     margin-bottom: 20px;
   }
   
-  .signup-form ,.login-form{
+  /* .signup-form ,.login-form{
     display: flex;
     flex-direction: column;
-  }
+  } */
   .signup-form div , .login-form div{
     margin: 10px;
     display: flex;

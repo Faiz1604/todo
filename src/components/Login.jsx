@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './../style/signup.css';
 
 const Login = () => {
@@ -10,8 +10,7 @@ const Login = () => {
 
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,26 +26,37 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Simulate user authentication (replace with actual authentication logic)
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      if (storedUser.username === formData.username && storedUser.password === formData.password) {
-        // Successful login, navigate to the /todo page
-        localStorage.setItem("loggedUser",JSON.stringify(formData.username))
-        navigate(`/todo/${formData.username}`);
+  
+    // Retrieve user data from localStorage
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+  
+    // Find the user with the provided username
+    const user = storedUsers.find((u) => u.username === formData.username);
+  
+    if (user) {
+      // Check if the password matches
+      if (user.password === formData.password) {
+        // Successful login
+        localStorage.setItem('loggedUser', user.username);
+        navigate(`/todo/${user.username}`); // Redirect to the user's dashboard
       } else {
-        setPasswordError('Invalid username or password');
+        setPasswordError('Invalid password'); // Password does not match
       }
     } else {
-      setPasswordError('User not found');
+      setPasswordError('User not found'); // User with the provided username does not exist
     }
   };
-  useEffect(()=>{
-    setTimeout(()=>{
+  
+
+  useEffect(() => {
+    // Clear the login error message after 3 seconds
+    const timer = setTimeout(() => {
       setPasswordError('');
-    },3000)
-  },[]);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -60,7 +70,7 @@ const Login = () => {
             value={formData.username}
             required
             onChange={handleChange}
-            style={{width:'95%'}}
+            
           />
         </div>
         <div>
@@ -74,7 +84,7 @@ const Login = () => {
             onChange={handleChange}
           />
         </div>
-        <div id='toggle-visibility'>
+        <div id="toggle-visibility">
           <label htmlFor="toggle-visibility">Show Password</label>
           <input
             type="checkbox"
@@ -83,7 +93,7 @@ const Login = () => {
             name="toggle-visibility"
           />
         </div>
-        
+
         {passwordError && <p className="error-message">{passwordError}</p>}
         <div>
           <button type="submit">Login</button>
