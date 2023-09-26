@@ -1,3 +1,5 @@
+/* this stylesheet used for both signup and login page  */
+
 .main-container{
     height: 100vh;
     display: flex;
@@ -24,10 +26,10 @@
     margin-bottom: 20px;
   }
   
-  /* .signup-form ,.login-form{
+  .signup-form ,.login-form{
     display: flex;
     flex-direction: column;
-  } */
+  }
   .signup-form div , .login-form div{
     margin: 10px;
     display: flex;
@@ -87,7 +89,7 @@
     text-align: center;
     margin-top: 20px;
   }
-  @media screen and (min-width:768px) {
+  @media screen and (min-width:769px) {
     .signup-container , .login-container{
       width: 30%;
     }

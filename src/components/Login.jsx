@@ -26,13 +26,13 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Retrieve user data from localStorage
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-  
+
     // Find the user with the provided username
     const user = storedUsers.find((u) => u.username === formData.username);
-  
+
     if (user) {
       // Check if the password matches
       if (user.password === formData.password) {
@@ -46,7 +46,6 @@ const Login = () => {
       setPasswordError('User not found'); // User with the provided username does not exist
     }
   };
-  
 
   useEffect(() => {
     // Clear the login error message after 3 seconds
@@ -70,7 +69,6 @@ const Login = () => {
             value={formData.username}
             required
             onChange={handleChange}
-            
           />
         </div>
         <div>

@@ -1,162 +1,207 @@
 /* AddTaskModal.css */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal.open {
-    display: flex;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .modal h2 {
-    font-size: 1.5rem;
-  }
-  
-  .modal input,
-  .modal select,
-  .modal button {
-    margin: 10px 0;
-    padding: 8px;
-    width: 100%;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  /* TodoList.css */
-  .todo-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 50%;
-    margin-left: 25%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    text-align: center; 
-  }
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  #logout-btn{
-    width:max-content;
-    height: 40px;
-    border: 1px solid #40c4ff;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  font-size: 1.5rem;
+}
+
+.modal input,
+.modal select,
+.modal button {
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* TodoList.css */
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px; /* Adjust as needed */
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+#logout-btn {
+  width: max-content;
+  height: 40px;
+  border: 1px solid #40c4ff;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.filter-select,
+.filter-select select {
+  margin: 0 10px;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.scrollable-box {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #40c4ff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #2789b6;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline-color: #40c4ff;
+}
+
+ul {
+  list-style:circle;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+li span {
+  flex: 1;
+  cursor: pointer;
+}
+
+li button {
+  margin-left: 10px;
+  background-color: #dc3545;
+}
+
+li button:hover {
+  background-color: #c82333;
+}
+
+/* Optional: Style completed tasks with a line-through */
+li span.completed {
+  text-decoration: line-through;
+}
+
+/* Optional: Style priority levels with different colors */
+li span.priority-high {
+  color: red;
+}
+
+li span.priority-medium {
+  color: orange;
+}
+
+li span.priority-low {
+  color: green;
+}
+
+/* Optional: Style the edit input and save button */
+li input[type="text"] {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 6px;
+}
+
+/* Sign to completed task */
+.completed {
+  text-decoration: line-through;
+}
+
+li button.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+li button.save-button:hover {
+  background-color: #1e7e34;
+}
+
+/* Responsive Styles */
+@media (min-width: 769px) {
+  /* Additional CSS for Larger Screens (Tablet and Desktop) */
+  .todo-container {
+    max-width: 800px; /* Adjust as needed */
   }
   .filters{
     display: flex;
     flex-direction: row;
-    justify-content:center;
+    justify-content: space-around;
   }
-  .scrollable-box {
-    height: 400px; /* Adjust the height as needed */
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
+  .filter-container {
+    flex-direction: row;
   }
+
+  .filter-select,
+  .filter-select select {
+    margin: 0;
+  }
+
   
-  button {
-    padding: 8px 16px;
-    font-size: 1rem;
-    background-color: #40c4ff;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  button:hover {
-    background-color: #2789b6;
-  }
-  
-  input[type="text"],
-  input[type="date"],
-  select {
-    margin: 10px 0;
-    padding: 8px;
-    width: 40%;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  li {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    font-size: 1rem;
-  }
-  
-  li span {
-    flex: 1;
-    cursor: pointer;
-  }
-  
-  li button {
-    margin-left: 10px;
-    background-color: #dc3545;
-  }
-  
-  li button:hover {
-    background-color: #c82333;
-  }
-  
-  /* Optional: Style completed tasks with a line-through */
-  li span.completed {
-    text-decoration: line-through;
-  }
-  
-  /* Optional: Style priority levels with different colors */
-  li span.priority-high {
-    color: red;
-  }
-  
-  li span.priority-medium {
-    color: orange;
-  }
-  
-  li span.priority-low {
-    color: green;
-  }
-  
-  /* Optional: Style the edit input and save button */
-  li input[type="text"] {
-    flex: 1;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 6px;
-  }
-  /* sign to completed tast */
-  .completed {
-    text-decoration: line-through;
-  }
-  li button.save-button {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  li button.save-button:hover {
-    background-color: #1e7e34;
-  }
-  
+}

@@ -75,6 +75,7 @@ const Signup = () => {
             value={formData.username}
             required
             onChange={handleChange}
+            
           />
         </div>
         <div>

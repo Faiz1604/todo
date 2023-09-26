@@ -165,6 +165,18 @@ function Todo() {
     navigate('/');
   };
 
+  // Function to sort tasks based on the current sortOrder
+  const sortedTasks = useMemo(() => {
+    let sorted = [...filteredTasks];
+    if (sortOrder === 'dueDate') {
+      sorted = sorted.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    } else if (sortOrder === 'priority') {
+      const priorityOrder = { high: 1, medium: 2, low: 3 };
+      sorted = sorted.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    }
+    return sorted;
+  }, [filteredTasks, sortOrder]);
+
   return (
     <div className="todo-container">
       <h1 className="todo-title">Todo List</h1>
@@ -223,7 +235,7 @@ function Todo() {
 
       <div className="scrollable-box">
         <ol className="task-list">
-          {filteredTasks.map((task) => (
+          {sortedTasks.map((task) => (
             <li
               key={task.id}
               className={`task ${task.completed ? 'completed' : ''}`}
