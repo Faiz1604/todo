@@ -95,14 +95,7 @@ To set up this project on your local machine, follow these steps:
 
 2. Navigate to the project directory:
 
-
-2. Navigate to the project directory:
-
 ## Usage
-
-Before running the application, make sure to set up the following environment variables:
-
-- `REACT_APP_API_KEY`: Your API key for accessing external services.
 
 To start the development server, run:
 
