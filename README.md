@@ -1,3 +1,14 @@
+## Features
+
+- Create new tasks with a title, due date, and priority level.
+- Edit and update task details.
+- Mark tasks as completed or uncompleted.
+- Delete tasks you no longer need.
+- Filter tasks by status (completed or active).
+- Filter tasks by priority level (high, medium, low).
+- Sort tasks by default, due date, or priority.
+- User-friendly interface.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,3 +79,36 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Todo App
+
+This is a simple Todo App built with React and React Router. It allows users to create, edit, and delete tasks, as well as filter and sort tasks based on their status, priority, and due date.
+
+
+
+
+## Installation
+
+To set up this project on your local machine, follow these steps:
+
+1. Clone this repository to your local machine:
+
+2. Navigate to the project directory:
+
+
+2. Navigate to the project directory:
+
+## Usage
+
+Before running the application, make sure to set up the following environment variables:
+
+- `REACT_APP_API_KEY`: Your API key for accessing external services.
+
+To start the development server, run:
+
+npm start
+
+This will launch the application in your web browser.
+
+
+
