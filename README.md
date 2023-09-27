@@ -8,7 +8,8 @@
 - Filter tasks by priority level (high, medium, low).
 - Sort tasks by default, due date, or priority.
 - User-friendly interface.
-
+# deployed
+link: https://dothisassign.netlify.app/
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -93,12 +94,13 @@ To set up this project on your local machine, follow these steps:
 
 1. Clone this repository to your local machine:
 
-2. Navigate to the project directory:
+2. Navigate to the project directory
 
+3 . npm install
 ## Usage
 
 To start the development server, run:
-npm install
+
 npm start
 
 This will launch the application in your web browser.
