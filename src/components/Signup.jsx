@@ -28,7 +28,7 @@ const Signup = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     if (!passwordRegex.test(formData.password)) {
       setPasswordError(
-        'Password must be at least 8 characters with at least 1 alphabet and 1 special symbol.'
+        'Password must be at least 8 characters with at least 1 upparcase letter and 1 special symbol.'
       );
       return;
     }
