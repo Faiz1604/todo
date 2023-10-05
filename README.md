@@ -9,7 +9,7 @@
 - Sort tasks by default, due date, or priority.
 - User-friendly interface.
 # deployed
-link: https://dothisassign.netlify.app/
+link: https://dothisassign.netlify.app/login
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
